@@ -1,12 +1,5 @@
 /**
- * elastiStack.js v1.0.0
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Copyright 2013, Codrops
- * http://www.codrops.com
+ * switchCard.js v1.0.0
  */
 ;( function( window ) {
 	
@@ -36,7 +29,7 @@
 		isInit = false ;
 	
 	// 初始化
-	function ElastiStack( el, options ) {
+	function SwitchCard( el, options ) {
 		this.container = el;
 		this.options = extend( {}, this.options );
 		// 初始化变量
@@ -53,7 +46,7 @@
 	}
 
 	// 默认配置
-	ElastiStack.prototype.options = {
+	SwitchCard.prototype.options = {
 		// 是否启用卡片拖拽
 		enable: true,
 		// 弹回距离
@@ -75,7 +68,7 @@
 	};
 
 	// 初始化设置
-	ElastiStack.prototype.initSetting = function(){
+	SwitchCard.prototype.initSetting = function(){
 		
 		this.itemsCount = this.items.length;
 		this._setStackStyle();
@@ -88,7 +81,7 @@
 	}
 	
 	// 初始化
-	ElastiStack.prototype._init = function() {
+	SwitchCard.prototype._init = function() {
 		// items
 		this.items = [].slice.call( this.container.children );
 		// 当前卡片索引
@@ -98,7 +91,7 @@
 	};
 	
 	// 注册事件
-	ElastiStack.prototype._initEvents = function() {
+	SwitchCard.prototype._initEvents = function() {
 		if (!this.options.enable) return
 		this.draggie.on( 'dragStart', ( i, e, p ) => {
 			// 判断是否启用
@@ -110,7 +103,7 @@
 		})
 	}
 
-	ElastiStack.prototype._setStackStyle = function() {
+	SwitchCard.prototype._setStackStyle = function() {
 		for (var ind = 0; ind < this.items.length; ind++) {
 			const nowIndex = this.current + ind
 			const item = this.items[nowIndex >= this.items.length ? nowIndex % this.items.length : nowIndex]
@@ -130,7 +123,7 @@
 
 
 
-	ElastiStack.prototype._moveAway = function( instance ) {
+	SwitchCard.prototype._moveAway = function( instance ) {
 		// console.log(instance)
 		// 判断是否有下一个卡片
 		let next = this.items[this.current + 1]
@@ -199,7 +192,7 @@
 		}
 	};
 
-	ElastiStack.prototype._moveBack = function( instance ) {
+	SwitchCard.prototype._moveBack = function( instance ) {
 		classie.add( instance.element, 'animate' );
 		setTransformStyle( instance.element, is3d ? 'translate3d(0,0,0)' : 'translate(0,0)' );
 		instance.element.style.left = '0px';
@@ -207,11 +200,11 @@
 	}
 
 	// 卡片开始拖拽事件
-	ElastiStack.prototype._onDragStart = function( instance, event, pointer ) {
+	SwitchCard.prototype._onDragStart = function( instance, event, pointer ) {
 		classie.remove( instance.element, 'animate' );
 	};
 
-	ElastiStack.prototype._goBack = function( instance, event, pointer ) {
+	SwitchCard.prototype._goBack = function( instance, event, pointer ) {
 		let last = this.items[this.current - 1]
 		if (!last) {
 			// 没有上一项的回调
@@ -280,7 +273,7 @@
 		
 	}
 
-	ElastiStack.prototype._onDragEnd = function( instance, event, pointer ) {
+	SwitchCard.prototype._onDragEnd = function( instance, event, pointer ) {
 		if( this._outOfSight(instance) ) {
 			// 判断是前进还是后退
 			
@@ -298,7 +291,7 @@
 		}
 	};
 
-	ElastiStack.prototype._initDragg = function() {
+	SwitchCard.prototype._initDragg = function() {
 		// console.log(this.items[ this.current ])
 		if (this.options.enable) {
 			this.draggie = new Draggabilly( this.items[ this.current ], {
@@ -311,17 +304,17 @@
 		
 	};
 
-	ElastiStack.prototype._disableDragg = function() {
+	SwitchCard.prototype._disableDragg = function() {
 		if (!this.options.enable) return
 		this.draggie.disable();
 	};
 
 	// returns true if x or y is bigger than distDragBack
-	ElastiStack.prototype._outOfSight = function( el ) {
+	SwitchCard.prototype._outOfSight = function( el ) {
 		return Math.abs( el.position.x ) > this.options.distDragBack || Math.abs( el.position.y ) > this.options.distDragBack;
 	};
 
-	ElastiStack.prototype._getTranslateVal = function( el ) {
+	SwitchCard.prototype._getTranslateVal = function( el ) {
 		var h = Math.sqrt( Math.pow( el.position.x, 2 ) + Math.pow( el.position.y, 2 ) ),
 			a = Math.asin( Math.abs( el.position.y ) / h ) / ( Math.PI / 180 ),
 			hL = h + this.options.distDragBack,
@@ -336,36 +329,36 @@
 		}
 	};
 	
-	ElastiStack.prototype.add = function(el){
+	SwitchCard.prototype.add = function(el){
 		this.container.appendChild(el);
 		this.items.push(el);
 		this.initSetting();
 	}
 	
 	// 获取卡片总数
-	ElastiStack.prototype.getSize = function(){
+	SwitchCard.prototype.getSize = function(){
 		return this.itemsCount ;
 	}
 	
 	// 获取当前卡片index
-	ElastiStack.prototype.getCurrent = function(){
+	SwitchCard.prototype.getCurrent = function(){
 		return this.current ;
 	}
 	
 	// 获取当前卡片元素
-	ElastiStack.prototype.getCurrentItem = function(){
+	SwitchCard.prototype.getCurrentItem = function(){
 		return this.items[this.current] ;
 	}
 	
 	// 添加卡片方法
-	ElastiStack.prototype.insert = function(el,index){
+	SwitchCard.prototype.insert = function(el,index){
 		this.container.insertBefore(el,this.container.childNodes[index]);
 		this.items.splice(index, 0, el);
 		this.initSetting();
 	}
 	
 	// 移除卡片方法
-	ElastiStack.prototype.remove = function(index){
+	SwitchCard.prototype.remove = function(index){
 		if ( this.items.length === 0 ){
 			return ;
 		}
@@ -382,7 +375,7 @@
 	}
 
 	// 模拟切换下一页
-	ElastiStack.prototype.next = function(index) {
+	SwitchCard.prototype.next = function(index) {
 		this._moveAway({
 			dragPoint: {
 				x: 260,
@@ -397,7 +390,7 @@
 			}
 		})
 	}
-	ElastiStack.prototype.last = function () {
+	SwitchCard.prototype.last = function () {
 		this._goBack({
 			dragPoint: {
 				x: -260,
@@ -412,7 +405,7 @@
 			}
 		})
 	}
-	ElastiStack.prototype.jump = function(index) {
+	SwitchCard.prototype.jump = function(index) {
 		this._moveAway({
 			dragPoint: {
 				x: 260,
@@ -428,6 +421,6 @@
 		})
 	}
 	// add to global namespace
-	window.ElastiStack = ElastiStack;
+	window.SwitchCard = SwitchCard;
 
 })( window );
