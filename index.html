@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>switch card</title>
+    <style>
+      /* 框架样式 */
+      .card-box {
+        list-style: none;
+        perspective: 1000px;
+        perspective-origin: 50% 150%;
+      }
+
+
+      .card-box .card {
+        position: absolute;
+        z-index: 1;
+        transform: translate3d(0, 0,-180px);
+        transform-style: preserve-3d;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+
+      .card-box .card.animate {
+        transition: all 0.3s ease-out;
+      }
+
+      .card-box .card.move-back {
+        /* http://matthewlein.com/ceaser/ */
+        -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.470, 1); /* older webkit */
+        -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.470, 1.515);
+        transition-timing-function: cubic-bezier(0.175, 0.885, 0.470, 1.515);
+      }
+      
+      /* 页面样式 */
+      body, html, .main-box {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .card-box {
+        width: 80%;
+        height: 400px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border: 1px solid #ccc;
+      }
+      .card {
+        width: 200px;
+        height: 250px;
+        line-height: 250px;
+        text-align: center;
+        color: white;
+        font-size: 2rem;
+      }
+      .card1 {
+        background-color: aqua;
+      }
+      .card2 {
+        background-color: burlywood;
+      }
+      .card3 {
+        background-color: chartreuse;
+      }
+      .card4 {
+        background-color: greenyellow;
+      }
+      .button {
+        position: fixed;
+        background-color: skyblue;
+        width: 45px;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        color: white;
+        font-size: 30px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .last {
+        left: 5%;
+      }
+      .next {
+        right: 5%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-box">
+      <div class="card-box" id="cardBox">
+        <div class="card card1">1</div>
+        <div class="card card2">2</div>
+        <div class="card card3">3</div>
+        <div class="card card4">4</div>
+      </div>
+      <div class="last button" onclick="cardBox.last()"><</div>
+      <div class="next button" onclick="cardBox.next()">></div>
+    </div>
+    <!-- 拖拽处理 -->
+    <script src="./draggabilly.pkgd.min.js" type="text/javascript" ></script>
+    <!-- 浏览器兼容性测试 -->
+    <script src="./modernizr.custom.js" type="text/javascript" ></script>
+    <!-- 主脚本 -->
+    <script src="./elastiStack.js" type="text/javascript" ></script>
+    <script>
+      var cardBox = new ElastiStack( document.getElementById('cardBox'), {
+        loop: true,
+        distDragBack: 100,
+        distDragMax: 200,
+        enable: true,
+        atEnd: function () {
+          console.log('at end!')
+        },
+        atStart: function () {
+          console.log('at first!')
+        },
+        onUpdateStack: function (activeIndex) {
+          console.log('card change!', activeIndex)
+        }
+      })
+    </script>
+  </body>
+</html>
